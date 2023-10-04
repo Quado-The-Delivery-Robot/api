@@ -1,0 +1,24 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.8.2",
+    "@types/restify": "^8.5.8",
+    "dotenv": "^16.3.1",
+    "mongodb": "^6.1.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "restify": "^11.1.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  }
+}
