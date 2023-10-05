@@ -1,4 +1,5 @@
 import { Collection, Db, MongoClient } from "mongodb";
+import { MONGODB_CONNECTION_STRING, NODE_ENV } from "$env/static/private";
 
 const options = {};
 
@@ -11,16 +12,16 @@ function getDatabases(client: MongoClient) {
     databases["app"] = client.db("app");
 }
 
-if (process.env.NODE_ENV === "development") {
+if (NODE_ENV === "development") {
     if (!(global as any)._mongoClientPromise) {
-        client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, options);
+        client = new MongoClient(MONGODB_CONNECTION_STRING, options);
         (global as any)._mongoClientPromise = client.connect();
         getDatabases(client);
     }
 
     clientPromise = (global as any)._mongoClientPromise;
 } else {
-    client = new MongoClient(process.env.MONGODB_CONNECTION_STRING, options);
+    client = new MongoClient(MONGODB_CONNECTION_STRING, options);
     clientPromise = client.connect();
     getDatabases(client);
 }
