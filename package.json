@@ -1,5 +1,5 @@
 {
-	"name": "quado",
+	"name": "api",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -14,7 +14,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Quado-The-Delivery-Robot/app"
+		"url": "https://github.com/Quado-The-Delivery-Robot/api"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^1.0.0-next.98",
