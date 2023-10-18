@@ -6,8 +6,17 @@ type orderItem = {
 type orderStatus = "Picking up order" | "Waiting for order" | "On its way" | "Delivered";
 
 export type order = {
-    price: number,
+    price: number;
     status: orderStatus;
     restaurant: string;
     items: orderItem[];
+};
+
+export type restaurant = {
+    name: string;
+    colors: string[];
+    tags: string[];
+    image: string;
+    nameID: string;
+    items: any;
 };
