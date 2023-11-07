@@ -1,8 +1,4 @@
-import { getCollection } from "$lib/database";
-import type { Collection } from "mongodb";
 import type { RequestEvent } from "@sveltejs/kit";
-
-const restaurantsCollection: Collection = getCollection("core", "restaurants");
 
 type registerEvent = {
     url: string,
