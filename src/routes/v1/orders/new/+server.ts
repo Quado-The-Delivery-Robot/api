@@ -4,20 +4,14 @@ import isValidRestaurant from "$lib/isValidRestaurant";
 import type { Collection } from "mongodb";
 import type { Session } from "@auth/core/types";
 import type { RequestEvent } from "@sveltejs/kit";
-import type { order } from "$lib/types";
+import type { orderItem } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
 
 export async function POST({ request, locals }: RequestEvent) {
     const session: Session = (await locals.getSession()) as Session;
-    const order: order = await request.json();
+    const order: orderItem[] = await request.json();
 
-    if (!isValidRestaurant(order.restaurant)) {
-        return json({
-            success: false,
-            error: "Invalid restaurant.",
-        });
-    }
 
     const result = await ordersCollection.updateOne(
         {
