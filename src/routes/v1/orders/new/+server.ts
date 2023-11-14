@@ -1,6 +1,8 @@
 import { json } from "@sveltejs/kit";
+import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "$lib/database";
 import isValidRestaurant from "$lib/isValidRestaurant";
+import { getAvailableRobot } from "$lib/robot";
 import type { Collection } from "mongodb";
 import type { Session } from "@auth/core/types";
 import type { RequestEvent } from "@sveltejs/kit";
@@ -13,6 +15,10 @@ type userOrder = {
     restaurant: string;
     items: orderItem[];
 };
+
+function taskRobot() {
+    
+}
 
 export async function POST({ request, locals }: RequestEvent) {
     const session: Session = (await locals.getSession()) as Session;
@@ -41,6 +47,8 @@ export async function POST({ request, locals }: RequestEvent) {
             quantity: item.quantity,
         };
     });
+
+    order.id = uuidv4();
 
     const result = await ordersCollection.updateOne(
         {

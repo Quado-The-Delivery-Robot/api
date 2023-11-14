@@ -9,7 +9,10 @@ export type orderItem = userOrderItem & {
     price: number;
 };
 
+export type robotState = "delivering" | "waiting" | "free";
+
 export type order = {
+    id: string,
     price: number;
     status: orderStatus;
     restaurant: string;
