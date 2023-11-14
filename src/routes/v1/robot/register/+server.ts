@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from "@sveltejs/kit";
-import { registerRobot } from "$lib/robotController";
+import { registerRobot } from "$lib/robot";
 
 type registerEvent = {
     api: string;
@@ -7,7 +7,7 @@ type registerEvent = {
 
 export async function POST({ request }: RequestEvent) {
     const data: registerEvent = await request.json();
-    const registeredRobot: boolean = await registerRobot(data.api);
+    const [registeredRobot] = await registerRobot(data.api);
 
     return json({
         success: registeredRobot,

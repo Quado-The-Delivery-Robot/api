@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "./database";
 import type { Collection } from "mongodb";
 
@@ -16,7 +17,7 @@ export default function isValidRestaurant(restaurant: string): boolean {
     if (result.bufferedCount() == 1) {
         validRestaurants.push(restaurant);
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
