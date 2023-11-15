@@ -1,16 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
-import { getCollection } from "./database";
+import { getCollection } from "../database";
+import { robotFree } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
-import type { robotState, order } from "./types";
+import type { robotState } from "../types";
+import type { Order } from "./order";
 
 const robotsCollection: Collection = getCollection("core", "robots");
-const robots: Robot[] = [];
 
 export class Robot {
-    readonly api: string = "";
-    readonly id: string = "";
+    readonly api: string;
+    readonly id: string;
     state: robotState = "free";
-    order: order | null = null;
+    order: Order | null = null;
 
     constructor(api: string) {
         this.api = api;
@@ -39,13 +40,16 @@ export class Robot {
     }
 
     public async setState(state: robotState): Promise<boolean> {
+        if (state === "free") robotFree(this);
+
         this.state = state;
         return this.updateDB();
     }
 
-    public async startOrder(order: order): Promise<boolean> {
-        this.setState("delivering");
+    public async startOrder(order: Order): Promise<boolean> {
+        order.setState("Picking up order");
         this.order = order;
+        this.setState("delivering");
         return this.updateDB();
     }
 
@@ -71,25 +75,4 @@ export class Robot {
 
         return false;
     }
-}
-
-export async function registerRobot(api: string): Promise<[boolean, Robot]> {
-    const robot = new Robot(api);
-    const success: boolean = await robot.setup();
-
-    if (success) robots.push(robot);
-
-    return [success, robot];
-}
-
-export function getAvailableRobot(): Robot {
-    let availableRobot: Robot;
-
-    robots.forEach((robot: Robot) => {
-        if (robot.state !== "free") return;
-
-        availableRobot = robot;
-    });
-
-    return availableRobot!;
 }

@@ -1,4 +1,4 @@
-type orderStatus = "Picking up order" | "Waiting for order" | "On its way" | "Delivered";
+export type orderState = "Picking up order" | "Waiting for order" | "On its way" | "Delivered" | "Not started";
 
 export type userOrderItem = {
     id: number;
@@ -14,7 +14,7 @@ export type robotState = "delivering" | "waiting" | "free";
 export type order = {
     id: string,
     price: number;
-    status: orderStatus;
+    state: orderState;
     restaurant: string;
     items: orderItem[];
 };

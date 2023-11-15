@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from "@sveltejs/kit";
-import { registerRobot } from "$lib/robot";
+import { registerRobot } from "$lib/controllers/robot";
 
 type registerEvent = {
     api: string;

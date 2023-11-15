@@ -2,13 +2,12 @@ import { json } from "@sveltejs/kit";
 import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "$lib/database";
 import isValidRestaurant from "$lib/isValidRestaurant";
-import { getAvailableRobot } from "$lib/robot";
+import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
 import type { Session } from "@auth/core/types";
 import type { RequestEvent } from "@sveltejs/kit";
-import type { order, orderItem } from "$lib/types";
+import type { orderItem } from "$lib/types";
 
-const ordersCollection: Collection = getCollection("core", "orders");
 const restaurantsCollection: Collection = getCollection("core", "restaurants");
 
 type userOrder = {
@@ -16,15 +15,11 @@ type userOrder = {
     items: orderItem[];
 };
 
-function taskRobot() {
-    
-}
-
 export async function POST({ request, locals }: RequestEvent) {
     const session: Session = (await locals.getSession()) as Session;
-    const order: userOrder = await request.json();
+    const userOrder: userOrder = await request.json();
 
-    if (!isValidRestaurant(order.restaurant)) {
+    if (!isValidRestaurant(userOrder.restaurant)) {
         return json({
             success: false,
             error: "Invalid restaurant.",
@@ -32,15 +27,17 @@ export async function POST({ request, locals }: RequestEvent) {
     }
 
     const restaurantResult = await restaurantsCollection.findOne({
-        name: order.restaurant,
+        name: userOrder.restaurant,
     });
-    let orderItems = [];
+    let orderItems: orderItem[] = [];
+    let orderPrice: number = 0;
 
-    order.items.forEach((item: orderItem) => {
+    userOrder.items.forEach((item: orderItem) => {
         const itemData = restaurantResult?.items[item.id];
 
         if (typeof itemData == null) return;
 
+        orderPrice += itemData.price;
         orderItems[item.id] = {
             price: itemData.price,
             id: item.id,
@@ -48,23 +45,13 @@ export async function POST({ request, locals }: RequestEvent) {
         };
     });
 
-    order.id = uuidv4();
-
-    const result = await ordersCollection.updateOne(
-        {
-            user: session?.user?.email,
-        },
-        {
-            $push: {
-                orders: order,
-            },
-        },
-        {
-            upsert: true,
-        }
-    );
-
     return json({
-        success: result.acknowledged,
+        success: await createOrder(session.user?.email!, {
+            id: uuidv4(),
+            items: orderItems,
+            price: orderPrice,
+            restaurant: userOrder.restaurant,
+            state: "Not started",
+        }),
     });
 }
