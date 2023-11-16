@@ -1,3 +1,4 @@
+import { NODE_ENV } from "$env/static/private";
 import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "../database";
 import { robotFree } from "$lib/controllers/orders";
@@ -10,7 +11,7 @@ const robotsCollection: Collection = getCollection("core", "robots");
 export class Robot {
     readonly api: string;
     readonly id: string;
-    state: robotState = "free";
+    state: robotState | undefined;
     order: Order | null = null;
 
     constructor(api: string) {
@@ -40,6 +41,7 @@ export class Robot {
     }
 
     public async setState(state: robotState): Promise<boolean> {
+        if (state === this.state) return false;
         if (state === "free") robotFree(this);
 
         this.state = state;
@@ -58,7 +60,9 @@ export class Robot {
             {
                 id: this.id,
             },
-            this,
+            {
+                $set: this,
+            },
             {
                 upsert: true,
             }
@@ -68,6 +72,9 @@ export class Robot {
     }
 
     private async ping(): Promise<boolean> {
+        // If the current mode is development its very likely its not actual production robot.
+        if (NODE_ENV === "development") return true;
+
         const ping = await fetch(this.api);
         const pingResult = await ping.text();
 

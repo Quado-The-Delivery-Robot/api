@@ -7,7 +7,7 @@ type registerEvent = {
 
 export async function POST({ request }: RequestEvent) {
     const data: registerEvent = await request.json();
-    const [registeredRobot] = await registerRobot(data.api);
+    const registeredRobot = await registerRobot(data.api);
 
     return json({
         success: registeredRobot,

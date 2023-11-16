@@ -2,13 +2,13 @@ import { Robot } from "$lib/classes/robot";
 
 const robots: Robot[] = [];
 
-export async function registerRobot(api: string): Promise<[boolean, Robot]> {
+export async function registerRobot(api: string): Promise<boolean> {
     const robot = new Robot(api);
     const success: boolean = await robot.setup();
 
     if (success) robots.push(robot);
 
-    return [success, robot];
+    return success;
 }
 
 export function getAvailableRobot(): Robot | null {

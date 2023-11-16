@@ -1,20 +1,19 @@
-import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "./database";
 import type { Collection } from "mongodb";
 
 const restaurantsCollection: Collection = getCollection("core", "restaurants");
 const validRestaurants: string[] = [];
 
-export default function isValidRestaurant(restaurant: string): boolean {
+export default async function isValidRestaurant(restaurant: string): Promise<boolean> {
     if (validRestaurants.includes(restaurant)) {
         return true;
     }
 
-    const result = restaurantsCollection.find({
-        name: restaurant,
+    const result = await restaurantsCollection.findOne({
+        nameID: restaurant,
     });
 
-    if (result.bufferedCount() == 1) {
+    if (result !== null) {
         validRestaurants.push(restaurant);
         return true;
     }
