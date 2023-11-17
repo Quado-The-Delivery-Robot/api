@@ -6,13 +6,13 @@ import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
 import type { Session } from "@auth/core/types";
 import type { RequestEvent } from "@sveltejs/kit";
-import type { orderItem } from "$lib/types";
+import type { orderItem, userOrderItem } from "$lib/types";
 
 const restaurantsCollection: Collection = getCollection("core", "restaurants");
 
 type userOrder = {
     restaurant: string;
-    items: orderItem[];
+    items: userOrderItem[];
 };
 
 export async function POST({ request, locals }: RequestEvent) {
@@ -27,12 +27,12 @@ export async function POST({ request, locals }: RequestEvent) {
     }
 
     const restaurantResult = await restaurantsCollection.findOne({
-        name: userOrder.restaurant,
+        nameID: userOrder.restaurant,
     });
     let orderItems: orderItem[] = [];
     let orderPrice: number = 0;
 
-    userOrder.items.forEach((item: orderItem) => {
+    userOrder.items.forEach((item: userOrderItem) => {
         const itemData = restaurantResult?.items[item.id];
 
         if (typeof itemData == null) return;
