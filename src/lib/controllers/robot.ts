@@ -15,10 +15,22 @@ export function getAvailableRobot(): Robot | null {
     let availableRobot: Robot | null = null;
 
     robots.forEach((robot: Robot) => {
-        if (robot.state !== "free") return;
+        if (robot.state !== "free" || availableRobot !== null) return;
 
         availableRobot = robot;
     });
 
     return availableRobot;
+}
+
+export function getRobotByApi(api: string): Robot | null {
+    let robotToReturn: Robot | null = null;
+
+    robots.forEach((robot: Robot) => {
+        if (robot.api !== api || robotToReturn !== null) return;
+
+        robotToReturn = robot;
+    });
+
+    return robotToReturn;
 }

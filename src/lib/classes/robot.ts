@@ -47,9 +47,23 @@ export class Robot {
     }
 
     public async startOrder(order: Order): Promise<boolean> {
-        order.setState("Picking up order");
-        this.order = order;
+        const startFetch = await fetch(this.api + "/startOrder", {
+            method: "POST",
+            body: JSON.stringify({
+                code: order.data.code,
+            }),
+        });
+        const startResult = await startFetch.text();
+
+        if (startResult !== "OK") {
+            return false;
+        }
+
         this.setState("delivering");
+
+        this.order = order;
+        order.setState("Picking up order");
+
         return this.updateDB();
     }
 

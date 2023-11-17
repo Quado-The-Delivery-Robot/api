@@ -1,20 +1,34 @@
-import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "../database";
 import type { Collection } from "mongodb";
-import type { order, orderState } from "../types";
+import type { order, orderBasic, orderState } from "../types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
+
+const characters: string = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+function generateCode(length: number): string {
+    let result = "";
+    let counter = 0;
+
+    while (counter < length) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+        counter += 1;
+    }
+
+    return result;
+}
 
 export class Order {
     readonly user: string;
     readonly id: string;
     data: order;
 
-    constructor(user: string, data: order) {
+    constructor(user: string, data: orderBasic) {
         this.user = user;
-        this.id = uuidv4();
-        data.id = this.id
-        this.data = data
+        this.id = data.id;
+        this.data = data as unknown as order;
+        this.data.code = generateCode(5);
     }
 
     public async setup(): Promise<boolean> {
@@ -29,8 +43,8 @@ export class Order {
             },
             {
                 $pull: {
-                    order: { id: this.id }
-                }
+                    items: { id: this.id },
+                },
             }
         );
     }
@@ -48,8 +62,8 @@ export class Order {
             },
             {
                 $set: {
-                    "items.$": this.data
-                }
+                    "items.$": this.data,
+                },
             }
         );
 

@@ -11,12 +11,16 @@ export type orderItem = userOrderItem & {
 
 export type robotState = "delivering" | "waiting" | "free";
 
-export type order = {
-    id: string,
+export type orderBasic = {
+    id: string;
     price: number;
     state: orderState;
     restaurant: string;
     items: orderItem[];
+};
+
+export type order = orderBasic & {
+    code: string;
 };
 
 export type restaurant = {
