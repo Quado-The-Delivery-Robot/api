@@ -47,6 +47,7 @@
 		"@auth/core": "^0.15.0",
 		"@auth/mongodb-adapter": "^2.0.0",
 		"@auth/sveltekit": "^0.3.7",
+		"@sveltejs/adapter-vercel": "^3.1.0",
 		"mongodb": "^6.1.0",
 		"uuid": "^9.0.1"
 	}
