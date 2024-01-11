@@ -8,4 +8,14 @@ import type { Handle } from "@sveltejs/kit";
 export const handle: Handle = SvelteKitAuth({
     providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_SECERT, redirectProxyUrl: "https://example.com/auth" })],
     adapter: MongoDBAdapter(database, { databaseName: "app" }),
+    cookies: {
+        sessionToken: {
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: process.env.NODE_ENV === "production" ? true : false,
+            },
+        },
+    },
 });
