@@ -10,6 +10,7 @@ export const handle: Handle = SvelteKitAuth({
     adapter: MongoDBAdapter(database, { databaseName: "app" }),
     cookies: {
         sessionToken: {
+            name: "authjs.session-token",
             options: {
                 httpOnly: true,
                 sameSite: "lax",
