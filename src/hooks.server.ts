@@ -16,6 +16,7 @@ export const handle: Handle = SvelteKitAuth({
                 sameSite: "lax",
                 path: "/",
                 secure: NODE_ENV === "production" ? true : false,
+                domain: "quadoapp.com",
             },
         },
     },
