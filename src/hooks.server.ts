@@ -6,20 +6,11 @@ import database from "$lib/database";
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = SvelteKitAuth({
-    providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_SECERT, redirectProxyUrl: "https://example.com/auth" })],
+    providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_SECERT, redirectProxyUrl: "https://www.quadoapp.com/auth" })],
     adapter: MongoDBAdapter(database, { databaseName: "app" }),
     cookies: {
         sessionToken: {
             name: "authjs.session-token",
-            options: {
-                httpOnly: true,
-                sameSite: "lax",
-                path: "/",
-                domain: ".quadoapp.com",
-            },
-        },
-        callbackUrl: {
-            name: "__Secure-authjs.callback-url",
             options: {
                 httpOnly: true,
                 sameSite: "lax",
