@@ -9,9 +9,5 @@ export const load: LayoutServerLoad = async ({ locals }: RequestEvent) => {
             success: false,
             error: "User not logged in.",
         });
-    } else {
-        return {
-            session: await locals.getSession(),
-        };
     }
 };
