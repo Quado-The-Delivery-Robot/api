@@ -2,8 +2,8 @@ import { json, type RequestEvent } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }: RequestEvent) => {
-    const session = locals.getSession();
-
+    const session = await locals.getSession();
+    console.log(session, locals.getSession());
     if (!session) {
         return json({
             success: false,
