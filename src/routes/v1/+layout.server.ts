@@ -1,7 +1,7 @@
 import { json, type RequestEvent } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 
-export const load: LayoutServerLoad = ({ locals }: RequestEvent) => {
+export const load: LayoutServerLoad = async ({ locals }: RequestEvent) => {
     const session = locals.getSession();
 
     if (!session) {
@@ -9,5 +9,9 @@ export const load: LayoutServerLoad = ({ locals }: RequestEvent) => {
             success: false,
             error: "User not logged in.",
         });
+    } else {
+        return {
+            session: await locals.getSession(),
+        };
     }
 };
