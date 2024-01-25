@@ -17,6 +17,11 @@ type userOrder = {
 
 export async function POST({ request, locals }: RequestEvent) {
     const session: Session = (await locals.getSession()) as Session;
+
+    return json({
+        session,
+    });
+
     const userOrder: userOrder = await request.json();
 
     if (!isValidRestaurant(userOrder.restaurant)) {
