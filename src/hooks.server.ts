@@ -7,6 +7,12 @@ import database from "$lib/database";
 import type { Handle } from "@sveltejs/kit";
 import type { Session } from "@auth/sveltekit";
 
+const allowCors: Handle = async ({ event, resolve }) => {
+    const response = await resolve(event);
+    response.headers.append("Access-Control-Allow-Origin", "http://www.quadoapp.com");
+    return response;
+};
+
 const addLocalsSession: Handle = async ({ event, resolve }) => {
     const session: Session = (await event.locals.getSession()) as Session;
     event.locals.session = session;
@@ -15,6 +21,7 @@ const addLocalsSession: Handle = async ({ event, resolve }) => {
 };
 
 export const handle: Handle = sequence(
+    allowCors,
     SvelteKitAuth({
         providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_SECERT, redirectProxyUrl: "https://www.quadoapp.com/auth" })],
         adapter: MongoDBAdapter(database, { databaseName: "app" }),
