@@ -15,7 +15,7 @@ type userOrder = {
     items: userOrderItem[];
 };
 
-export async function POST({ request, locals }: RequestEvent) {
+export async function GET({ request, locals }: RequestEvent) {
     const session: Session = (await locals.getSession()) as Session;
 
     return json({
