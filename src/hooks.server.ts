@@ -11,7 +11,7 @@ const addLocalsSession: Handle = async ({ event, resolve }) => {
     const session: Session = (await event.locals.getSession()) as Session;
     event.locals.session = session;
 
-    return resolve(event);
+    return await resolve(event);
 };
 
 export const handle: Handle = sequence(
