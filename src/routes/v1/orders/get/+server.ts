@@ -8,10 +8,6 @@ import type { order } from "$lib/types";
 const ordersCollection: Collection = getCollection("core", "orders");
 
 export async function GET({ locals }: RequestEvent) {
-    return json({
-        session: locals.session,
-    });
-
     const result = ordersCollection.find({
         user: locals.session?.user?.email,
     });

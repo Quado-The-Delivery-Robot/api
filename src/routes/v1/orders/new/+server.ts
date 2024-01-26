@@ -15,13 +15,7 @@ type userOrder = {
     items: userOrderItem[];
 };
 
-export async function GET({ request, locals }: RequestEvent) {
-    const session: Session = (await locals.getSession()) as Session;
-
-    return json({
-        session,
-    });
-
+export async function POST({ request, locals }: RequestEvent) {
     const userOrder: userOrder = await request.json();
 
     if (!isValidRestaurant(userOrder.restaurant)) {
@@ -51,7 +45,7 @@ export async function GET({ request, locals }: RequestEvent) {
     });
 
     return json({
-        success: await createOrder(session.user?.email!, {
+        success: await createOrder(locals.session.user?.email!, {
             id: uuidv4(),
             items: orderItems,
             price: orderPrice,
