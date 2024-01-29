@@ -61,11 +61,11 @@ export class Order {
                 "items.id": this.id,
             },
             {
-                $set: {
-                    "items.$[elem]": this.data,
-                },
                 $setOnInsert: {
                     items: [],
+                },
+                $set: {
+                    "items.$[elem]": this.data,
                 },
             },
             {
