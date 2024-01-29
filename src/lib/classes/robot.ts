@@ -20,7 +20,7 @@ export class Robot {
     }
 
     public async setup(): Promise<boolean> {
-        let pingInterval: NodeJS.Timeout;
+        let pingInterval: any;
         pingInterval = setInterval(async () => {
             const isOnline: boolean = await this.ping();
 
