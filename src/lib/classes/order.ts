@@ -64,6 +64,9 @@ export class Order {
                 $set: {
                     "items.$": this.data,
                 },
+            },
+            {
+                upsert: true,
             }
         );
 
