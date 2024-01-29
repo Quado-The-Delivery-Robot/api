@@ -15,11 +15,7 @@ type userOrder = {
     items: userOrderItem[];
 };
 
-export async function GET({ request, locals }: RequestEvent) {
-    return json({
-        session: locals.session,
-    });
-
+export async function POST({ request, locals }: RequestEvent) {
     const userOrder: userOrder = await request.json();
 
     if (!isValidRestaurant(userOrder.restaurant)) {
