@@ -39,7 +39,7 @@ export class Order {
     public async destroy() {
         await ordersCollection.updateOne(
             {
-                id: this.id,
+                id: this.user,
             },
             {
                 $pull: {
@@ -57,7 +57,7 @@ export class Order {
     private async updateDB(): Promise<boolean> {
         const databaseResult = await ordersCollection.updateOne(
             {
-                id: this.id,
+                id: this.user,
                 "items.id": this.id,
             },
             {
