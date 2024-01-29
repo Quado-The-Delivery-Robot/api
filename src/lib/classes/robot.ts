@@ -45,7 +45,7 @@ export class Robot {
         if (state === "free") robotFree(this);
 
         this.state = state;
-        return this.updateDB();
+        return await this.updateDB();
     }
 
     public async startOrder(order: Order): Promise<boolean> {
@@ -66,7 +66,7 @@ export class Robot {
         this.order = order;
         order.setState("Picking up order");
 
-        return this.updateDB();
+        return await this.updateDB();
     }
 
     private async updateDB(): Promise<boolean> {
