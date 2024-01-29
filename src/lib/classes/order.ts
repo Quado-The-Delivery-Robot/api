@@ -62,10 +62,11 @@ export class Order {
             },
             {
                 $set: {
-                    "items.$": this.data,
+                    "items.$[elem]": this.data,
                 },
             },
             {
+                arrayFilters: [{ "elem.id": this.id }],
                 upsert: true,
             }
         );
