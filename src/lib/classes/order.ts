@@ -59,6 +59,7 @@ export class Order {
             {
                 id: this.user,
                 "items.id": this.id,
+                items: { $exists: true, $type: "array" },
             },
             {
                 $set: {
