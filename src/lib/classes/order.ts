@@ -51,7 +51,7 @@ export class Order {
 
     public async setState(state: orderState): Promise<boolean> {
         this.data.state = state;
-        return this.updateDB();
+        return await this.updateDB();
     }
 
     private async updateDB(): Promise<boolean> {
