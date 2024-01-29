@@ -61,9 +61,6 @@ export class Order {
                 "items.id": this.id,
             },
             {
-                $setOnInsert: {
-                    items: [],
-                },
                 $set: {
                     "items.$[elem]": this.data,
                 },
