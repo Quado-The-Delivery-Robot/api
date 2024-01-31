@@ -55,6 +55,24 @@ export class Order {
     }
 
     private async updateDB(): Promise<boolean> {
+        // Make sure the user exists
+        let user: any = await ordersCollection.findOne({ id: this.user });
+
+        if (user === null) {
+            user = await ordersCollection.insertOne({
+                id: this.user,
+                items: [],
+            });
+        }
+
+        const orderIndex: number = user?.items.findIndex((order: Order) => order.id === this.id);
+
+        if (orderIndex === -1) {
+            user!.items.push(this.data);
+        } else {
+            user!.items[orderIndex] = this.data;
+        }
+
         const databaseResult = await ordersCollection.updateOne(
             {
                 id: this.user,
@@ -63,12 +81,6 @@ export class Order {
             {
                 $set: {
                     "items.$[element]": this.data,
-                },
-                $push: {
-                    items: {
-                        $each: [this.data],
-                        $position: 0,
-                    },
                 },
             },
             {
