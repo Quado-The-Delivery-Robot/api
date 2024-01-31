@@ -9,7 +9,7 @@ const ordersCollection: Collection = getCollection("core", "orders");
 
 export async function GET({ locals }: RequestEvent) {
     const result = ordersCollection.find({
-        user: locals.session?.user?.email,
+        id: locals.session?.user?.email,
     });
     const orders: order[] = (await result.toArray()) as unknown as any;
 
