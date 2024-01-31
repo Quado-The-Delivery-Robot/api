@@ -55,32 +55,20 @@ export class Order {
     }
 
     private async updateDB(): Promise<boolean> {
-        // Make sure the user exists
-        const user = await ordersCollection.findOne({ id: this.user }, {});
-
-        if (user === null) {
-            ordersCollection.updateOne(
-                {
-                    id: this.user,
-                },
-                {
-                    $set: {
-                        items: [],
-                    },
-                },
-                {
-                    upsert: true,
-                }
-            );
-        }
-
         const databaseResult = await ordersCollection.updateOne(
             {
                 id: this.user,
+                "items.id": this.id,
             },
             {
                 $set: {
                     "items.$[element]": this.data,
+                },
+                $push: {
+                    items: {
+                        $each: [this.data],
+                        $position: 0,
+                    },
                 },
             },
             {
