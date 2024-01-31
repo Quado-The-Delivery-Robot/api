@@ -7,13 +7,12 @@ import type { order } from "$lib/types";
 const ordersCollection: Collection = getCollection("core", "orders");
 
 export async function GET({ locals }: RequestEvent) {
-    const result = ordersCollection.find({
+    const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });
-    const orders: order[] = (await result.toArray()) as unknown as any;
 
     return json({
         success: true,
-        orders: orders,
+        orders: result?.orders,
     });
 }
