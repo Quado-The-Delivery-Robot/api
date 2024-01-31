@@ -77,15 +77,14 @@ export class Order {
         const databaseResult = await ordersCollection.updateOne(
             {
                 id: this.user,
-                "items.id": this.id,
             },
             {
                 $set: {
-                    "items.$[elem]": this.data,
+                    "items.$[element]": this.data,
                 },
             },
             {
-                arrayFilters: [{ "elem.id": this.id }],
+                arrayFilters: [{ "element.id": this.id }],
                 upsert: true,
             }
         );
