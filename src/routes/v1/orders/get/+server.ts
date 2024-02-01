@@ -12,6 +12,6 @@ export async function GET({ locals }: RequestEvent) {
 
     return json({
         success: true,
-        orders: result?.orders,
+        orders: result,
     });
 }
