@@ -11,8 +11,7 @@ export async function GET({ locals }: RequestEvent) {
     });
 
     return json({
-        result: result,
         success: true,
-        orders: result?.orders,
+        orders: result?.items,
     });
 }
