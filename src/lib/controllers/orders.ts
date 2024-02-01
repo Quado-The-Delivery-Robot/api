@@ -1,6 +1,6 @@
 import { Order } from "$lib/classes/order";
 import { getAvailableRobot } from "./robot";
-import type { order, orderBasic } from "$lib/types";
+import type { orderBasic } from "$lib/types";
 import type { Robot } from "$lib/classes/robot";
 
 let orders: Order[] = [];
