@@ -9,7 +9,7 @@ import type { Session } from "@auth/sveltekit";
 
 const allowCors: Handle = async ({ event, resolve }) => {
     const response = await resolve(event);
-    response.headers.append("Access-Control-Allow-Origin", "https://*.quadoapp.com");
+    response.headers.append("Access-Control-Allow-Origin", "https://www.quadoapp.com");
     response.headers.append("Access-Control-Allow-Credentials", "true");
     return response;
 };
