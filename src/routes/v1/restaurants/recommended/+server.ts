@@ -10,6 +10,6 @@ export async function GET() {
 
     return json({
         success: restaurants.length > 0,
-        restaurants: restaurants,
+        data: restaurants,
     });
 }
