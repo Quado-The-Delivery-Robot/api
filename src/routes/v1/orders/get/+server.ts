@@ -1,3 +1,4 @@
+import { PUBLIC_ENDPOINT } from "$env/static/public";
 import { json } from "@sveltejs/kit";
 import { getCollection } from "$lib/database";
 import type { Collection } from "mongodb";
@@ -20,9 +21,10 @@ export async function GET({ locals, fetch }: RequestEvent) {
     // Remove the code from the orders & replace the restaurant ID with the actual name.
     items.forEach(async (order: order) => {
         order.code = null as unknown as any;
-        order.restaurant = "bruv";
-        const restaurantFetch = await fetch(`/v1/restaurants/info/${order.restaurant}`);
+
+        const restaurantFetch = await fetch(`${PUBLIC_ENDPOINT}/v1/restaurants/info/${order.restaurant}`);
         const { restaurant }: { restaurant: restaurant } = await restaurantFetch.json();
+        order.restaurant = restaurant.name;
     });
 
     return json({
