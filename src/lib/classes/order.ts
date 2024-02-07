@@ -29,6 +29,7 @@ export class Order {
         this.id = data.id;
         this.data = data as unknown as order;
         this.data.code = generateCode(5);
+        this.data.placed = new Date().getTime();
     }
 
     public async setup(): Promise<boolean> {
