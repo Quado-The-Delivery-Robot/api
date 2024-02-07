@@ -20,10 +20,9 @@ export async function GET({ locals, fetch }: RequestEvent) {
     // Remove the code from the orders & replace the restaurant ID with the actual name.
     items.forEach(async (order: order) => {
         order.code = null as unknown as any;
-
+        order.restaurant = "bruv";
         const restaurantFetch = await fetch(`/v1/restaurants/info/${order.restaurant}`);
         const { restaurant }: { restaurant: restaurant } = await restaurantFetch.json();
-        order.restaurant = "bruv";
     });
 
     return json({
