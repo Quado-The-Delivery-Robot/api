@@ -5,19 +5,12 @@ import type { RequestEvent } from "@sveltejs/kit";
 import type { order, restaurant } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
-const pageSize: number = 15;
 
-// https://stackoverflow.com/questions/42761068/paginate-javascript-array
-function paginate(array: order[], pageNumber: number): order[] {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
-}
-
-export async function GET({ request, locals, fetch }: RequestEvent) {
-    const pageNumber: number = (await request.json()).pageNumber || 1;
+export async function GET({ locals, fetch }: RequestEvent) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });
-    const items: order[] = paginate(result?.items || [], pageNumber);
+    const items: order[] = result?.items || [];
 
     // Sort the orders by date.
     items.sort(function (orderA: order, orderB: order) {
