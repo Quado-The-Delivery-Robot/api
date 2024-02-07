@@ -5,9 +5,8 @@ import type { RequestEvent } from "@sveltejs/kit";
 import type { order, restaurant } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
-const restaurantsCollection: Collection = getCollection("core", "restaurants");
 
-export async function GET({ locals }: RequestEvent) {
+export async function GET({ locals, fetch }: RequestEvent) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });
@@ -19,14 +18,14 @@ export async function GET({ locals }: RequestEvent) {
     });
 
     // Remove the code from the orders & replace the restaurant ID with the actual name.
-    items.forEach(async (order: order) => {
-        const restaurant = await restaurantsCollection.findOne({
-            nameID: order.restaurant,
-        });
-        order.restaurant = restaurant?.name;
-
+    for (let index = 0; index < items.length; index++) {
+        const order: order = items[index];
         order.code = null as unknown as any;
-    });
+
+        const restaurantFetch = await fetch(`/v1/restaurants/info/${order.restaurant}`);
+        const { restaurant }: { restaurant: restaurant } = await restaurantFetch.json();
+        order.restaurant = restaurant.name;
+    }
 
     return json({
         success: true,
