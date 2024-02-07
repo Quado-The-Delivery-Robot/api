@@ -21,7 +21,7 @@ export async function GET({ locals, fetch }: RequestEvent) {
     items.forEach(async (order: order) => {
         order.code = null as unknown as any;
 
-        const restaurantFetch = await fetch(`/restaurants/info/${order.restaurant}`);
+        const restaurantFetch = await fetch(`/v1/restaurants/info/${order.restaurant}`);
         const restaurant: restaurant = await restaurantFetch.json();
         console.log(await restaurantFetch.json());
         order.restaurant = restaurant.name;
