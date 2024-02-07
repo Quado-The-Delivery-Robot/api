@@ -23,7 +23,7 @@ export async function GET({ locals, fetch }: RequestEvent) {
 
         const restaurantFetch = await fetch(`/v1/restaurants/info/${order.restaurant}`);
         const { restaurant }: { restaurant: restaurant } = await restaurantFetch.json();
-        order.restaurant = restaurant.name;
+        order.restaurant = "bruv";
     });
 
     return json({
