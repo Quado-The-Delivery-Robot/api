@@ -12,6 +12,11 @@ export async function GET({ locals, fetch }: RequestEvent) {
     });
     const items: order[] = result?.items || [];
 
+    // Sort the orders by date.
+    items.sort(function (orderA: order, orderB: order) {
+        return orderB.placed - orderA.placed;
+    });
+
     // Remove the code from the orders & replace the restaurant ID with the actual name.
     items.forEach(async (order: order) => {
         order.code = null as unknown as any;
