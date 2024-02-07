@@ -60,10 +60,12 @@ export class Order {
         let user: any = await ordersCollection.findOne({ id: this.user });
 
         if (user === null) {
-            user = await ordersCollection.insertOne({
+            user = {
                 id: this.user,
                 items: [],
-            });
+            };
+
+            await ordersCollection.insertOne(user);
         }
 
         const orderIndex: number = user?.items.findIndex((order: Order) => order.id === this.id);
