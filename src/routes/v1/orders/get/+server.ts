@@ -1,4 +1,3 @@
-import { PUBLIC_ENDPOINT } from "$env/static/public";
 import { json } from "@sveltejs/kit";
 import { getCollection } from "$lib/database";
 import type { Collection } from "mongodb";
@@ -6,8 +5,9 @@ import type { RequestEvent } from "@sveltejs/kit";
 import type { order, restaurant } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
+const restaurantsCollection: Collection = getCollection("core", "restaurants");
 
-export async function GET({ locals, fetch }: RequestEvent) {
+export async function GET({ locals }: RequestEvent) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });
@@ -20,11 +20,12 @@ export async function GET({ locals, fetch }: RequestEvent) {
 
     // Remove the code from the orders & replace the restaurant ID with the actual name.
     items.forEach(async (order: order) => {
-        order.code = null as unknown as any;
+        const restaurant = await restaurantsCollection.findOne({
+            nameID: order.restaurant,
+        });
+        order.restaurant = restaurant?.name;
 
-        const restaurantFetch = await fetch(`${PUBLIC_ENDPOINT}/v1/restaurants/info/${order.restaurant}`);
-        const { restaurant }: { restaurant: restaurant } = await restaurantFetch.json();
-        order.restaurant = restaurant.name;
+        order.code = null as unknown as any;
     });
 
     return json({
