@@ -11,7 +11,9 @@ export async function GET({ fetch }) {
     // Get the popular items from the recommended restaurants.
     restaurants.forEach((restaurant: restaurant) => {
         let item: restaurantItem = restaurant.items[0];
-        item.data.colors = restaurant.colors;
+        item.data = {
+            colors: restaurant.colors,
+        };
         recommendedItems.push(item);
     });
 
