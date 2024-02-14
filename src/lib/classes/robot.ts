@@ -49,7 +49,7 @@ export class Robot {
     }
 
     public async startOrder(order: Order): Promise<boolean> {
-        const startFetch = await fetch(this.api + "/startOrder", {
+        const startFetch = await fetch(`${this.api}/startOrder`, {
             method: "POST",
             body: JSON.stringify({
                 code: order.data.code,
