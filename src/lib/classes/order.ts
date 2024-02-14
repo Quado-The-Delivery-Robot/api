@@ -3,7 +3,6 @@ import type { Collection } from "mongodb";
 import type { order, orderBasic, orderState } from "../types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
-
 const characters: string = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
