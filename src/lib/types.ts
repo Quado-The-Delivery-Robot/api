@@ -24,11 +24,19 @@ export type order = orderBasic & {
     placed: number;
 };
 
+export type restaurantItem = {
+    name: string;
+    price: number;
+    type: string;
+    description: string;
+    calories: number;
+};
+
 export type restaurant = {
     name: string;
     colors: string[];
     tags: string[];
     image: string;
     nameID: string;
-    items: any;
+    items: restaurantItem[];
 };
