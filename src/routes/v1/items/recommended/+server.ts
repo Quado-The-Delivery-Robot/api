@@ -2,7 +2,9 @@ import { json } from "@sveltejs/kit";
 import type { restaurant, restaurantItem } from "$lib/types.js";
 
 export async function GET({ fetch }) {
-    const result = await fetch("/v1/restaurants/recommended");
+    const result = await fetch("/v1/restaurants/recommended", {
+        credentials: "include",
+    });
     const { data: restaurants }: { data: restaurant[] } = await result.json();
     const recommendedItems: restaurantItem[] = [];
 
