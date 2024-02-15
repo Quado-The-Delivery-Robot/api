@@ -9,7 +9,8 @@ import type { Session } from "@auth/sveltekit";
 
 const allowCors: Handle = async ({ event, resolve }) => {
     const response = await resolve(event);
-    response.headers.append("Access-Control-Allow-Origin", "*");
+    response.headers.append("Access-Control-Allow-Origin", "https://www.quadoapp.com");
+    response.headers.append("Access-Control-Allow-Credentials", "true");
     return response;
 };
 
@@ -32,7 +33,25 @@ export const handle: Handle = sequence(
             sessionToken: {
                 name: "authjs.session-token",
                 options: {
-                    httpOnly: true,
+                    httpOnly: false,
+                    sameSite: "lax",
+                    path: "/",
+                    domain: ".quadoapp.com",
+                },
+            },
+            csrfToken: {
+                name: "authjs.csrf-token",
+                options: {
+                    httpOnly: false,
+                    sameSite: "lax",
+                    path: "/",
+                    domain: ".quadoapp.com",
+                },
+            },
+            pkceCodeVerifier: {
+                name: "authjs.pkce.code_verifier",
+                options: {
+                    httpOnly: false,
                     sameSite: "lax",
                     path: "/",
                     domain: ".quadoapp.com",

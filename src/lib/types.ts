@@ -21,6 +21,16 @@ export type orderBasic = {
 
 export type order = orderBasic & {
     code: string;
+    placed: number;
+    data: any;
+};
+
+export type restaurantItem = {
+    name: string;
+    price: number;
+    type: string;
+    description: string;
+    calories: number;
     data: any;
 };
 
@@ -30,5 +40,5 @@ export type restaurant = {
     tags: string[];
     image: string;
     nameID: string;
-    items: any;
+    items: restaurantItem[];
 };

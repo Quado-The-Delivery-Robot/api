@@ -4,7 +4,6 @@ import { getCollection } from "$lib/database";
 import isValidRestaurant from "$lib/isValidRestaurant";
 import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
-import type { Session } from "@auth/core/types";
 import type { RequestEvent } from "@sveltejs/kit";
 import type { orderItem, userOrderItem } from "$lib/types";
 

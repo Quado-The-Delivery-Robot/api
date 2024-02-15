@@ -3,7 +3,6 @@ import type { Collection } from "mongodb";
 import type { order, orderBasic, orderState } from "../types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
-
 const characters: string = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
@@ -29,6 +28,7 @@ export class Order {
         this.id = data.id;
         this.data = data as unknown as order;
         this.data.code = generateCode(5);
+        this.data.placed = new Date().getTime();
     }
 
     public async setup(): Promise<boolean> {
@@ -59,10 +59,12 @@ export class Order {
         let user: any = await ordersCollection.findOne({ id: this.user });
 
         if (user === null) {
-            user = await ordersCollection.insertOne({
+            user = {
                 id: this.user,
                 items: [],
-            });
+            };
+
+            await ordersCollection.insertOne(user);
         }
 
         const orderIndex: number = user?.items.findIndex((order: Order) => order.id === this.id);
