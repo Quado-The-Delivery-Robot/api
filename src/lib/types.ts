@@ -21,6 +21,7 @@ export type orderBasic = {
 
 export type order = orderBasic & {
     code: string;
+    data: any;
 };
 
 export type restaurant = {
