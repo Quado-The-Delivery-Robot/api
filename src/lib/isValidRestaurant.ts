@@ -10,7 +10,7 @@ export default async function isValidRestaurant(restaurant: string): Promise<boo
     }
 
     const result = await restaurantsCollection.findOne({
-        nameID: restaurant,
+        id: restaurant,
     });
 
     if (result !== null) {

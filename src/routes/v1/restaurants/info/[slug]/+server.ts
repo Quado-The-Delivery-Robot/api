@@ -8,7 +8,7 @@ const restaurantsCollection: Collection = getCollection("core", "restaurants");
 export async function GET({ params }: RequestEvent) {
     const restaurant: string | undefined = params.slug;
     const result = await restaurantsCollection.findOne({
-        nameID: restaurant,
+        id: restaurant,
     });
 
     return json({

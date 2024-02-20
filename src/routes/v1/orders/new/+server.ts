@@ -25,7 +25,7 @@ export async function POST({ request, locals }: RequestEvent) {
     }
 
     const restaurantResult = await restaurantsCollection.findOne({
-        nameID: userOrder.restaurant,
+        id: userOrder.restaurant,
     });
     let orderItems: orderItem[] = [];
     let orderPrice: number = 0;
