@@ -25,7 +25,7 @@ export const handle: Handle = sequence(
     allowCors,
     SvelteKitAuth({
         providers: [GoogleProvider({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_SECERT, redirectProxyUrl: "https://www.quadoapp.com/auth" })],
-        adapter: MongoDBAdapter(database, { databaseName: "app" }),
+        adapter: MongoDBAdapter(database, { databaseName: "accounts" }),
         pages: {
             signIn: "/login",
         },
