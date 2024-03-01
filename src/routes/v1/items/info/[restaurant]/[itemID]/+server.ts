@@ -1,8 +1,8 @@
 import { json } from "@sveltejs/kit";
-import type { restaurant, restaurantItem } from "$lib/types.js";
+import type { restaurant } from "$lib/types.js";
 
 export async function GET({ fetch, params }) {
-    const itemID: number = parseInt(params.restaurant);
+    const itemID: number = parseInt(params.itemID);
     const result = await fetch(`/v1/restaurants/info/${params.restaurant}`, {
         credentials: "include",
     });
