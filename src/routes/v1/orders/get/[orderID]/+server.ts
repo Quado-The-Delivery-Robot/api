@@ -8,7 +8,7 @@ const ordersCollection: Collection = getCollection("core", "orders");
 export async function GET({ locals, params }: RequestEvent) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
-        "item.id": params.orderID,
+        "items.id": params.orderID,
     });
 
     return json({
