@@ -5,7 +5,7 @@ import type { order, restaurant } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
 
-export async function GET({ locals, params }) {
+export async function GET({ locals, params, fetch }) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });
