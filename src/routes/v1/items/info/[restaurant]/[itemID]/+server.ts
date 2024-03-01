@@ -9,7 +9,7 @@ export async function GET({ fetch, params }) {
     const { restaurant: restaurant }: { restaurant: restaurant } = await result.json();
 
     return json({
-        success: restaurant.items[itemID] !== null,
+        success: result.ok && restaurant.items[itemID] !== null,
         item: restaurant.items[itemID],
     });
 }
