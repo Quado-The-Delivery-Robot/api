@@ -32,6 +32,7 @@ export type restaurantItem = {
     description: string;
     calories: number;
     data: any;
+    id: string;
 };
 
 export type restaurant = {
