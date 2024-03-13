@@ -5,7 +5,7 @@ import isValidRestaurant from "$lib/isValidRestaurant";
 import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
 import type { RequestEvent } from "@sveltejs/kit";
-import type { cart, cartItem } from "$lib/types";
+import type { cart } from "$lib/types";
 
 const cartsCollection: Collection = getCollection("core", "carts");
 
@@ -25,8 +25,8 @@ export async function POST({ request, locals }: RequestEvent) {
     const carts: { [key: string]: cart } = result?.carts || {};
 
     if (carts[cart.restaurant]) {
-        cart.items.forEach((cartItem: cartItem) => {
-            carts[cart.restaurant].items.push(cartItem);
+        cart.items.forEach((itemID: string) => {
+            carts[cart.restaurant].items.push(itemID);
         });
     } else {
         carts[cart.restaurant] = {
