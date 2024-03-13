@@ -42,6 +42,8 @@ export type restaurant = {
     image: string;
     id: string;
     items: restaurantItem[];
+    description: string;
+    location: string;
 };
 
 export type cartItem = number;
