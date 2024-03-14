@@ -1,12 +1,11 @@
 import { json } from "@sveltejs/kit";
 import { getCollection } from "$lib/database";
 import type { Collection } from "mongodb";
-import type { RequestEvent } from "@sveltejs/kit";
 import type { order, restaurant } from "$lib/types";
 
 const ordersCollection: Collection = getCollection("core", "orders");
 
-export async function GET({ locals, fetch }: RequestEvent) {
+export async function GET({ locals, fetch }) {
     const result = await ordersCollection.findOne({
         id: locals.session.user?.email,
     });

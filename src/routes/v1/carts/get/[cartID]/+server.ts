@@ -5,14 +5,15 @@ import type { cart } from "$lib/types";
 
 const cartsCollection: Collection = getCollection("app", "carts");
 
-export async function GET({ locals }) {
+export async function GET({ locals, params }) {
     const result = await cartsCollection.findOne({
         id: locals.session.user?.email,
     });
     const carts: { [key: string]: cart } = result?.carts || {};
+    const cart: cart | undefined = carts[params.cartID];
 
     return json({
         success: true,
-        carts,
+        cart,
     });
 }

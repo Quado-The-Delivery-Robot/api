@@ -4,7 +4,6 @@ import { getCollection } from "$lib/database";
 import isValidRestaurant from "$lib/isValidRestaurant";
 import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
-import type { RequestEvent } from "@sveltejs/kit";
 import type { orderItem, userOrderItem } from "$lib/types";
 
 const restaurantsCollection: Collection = getCollection("core", "restaurants");
@@ -14,7 +13,7 @@ type userOrder = {
     items: userOrderItem[];
 };
 
-export async function POST({ request, locals }: RequestEvent) {
+export async function POST({ request, locals }) {
     const userOrder: userOrder = await request.json();
 
     if (!isValidRestaurant(userOrder.restaurant)) {

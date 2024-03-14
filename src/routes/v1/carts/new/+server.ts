@@ -1,15 +1,12 @@
 import { json } from "@sveltejs/kit";
-import { v4 as uuidv4 } from "uuid";
 import { getCollection } from "$lib/database";
 import isValidRestaurant from "$lib/isValidRestaurant";
-import { createOrder } from "$lib/controllers/orders";
 import type { Collection } from "mongodb";
-import type { RequestEvent } from "@sveltejs/kit";
 import type { cart } from "$lib/types";
 
-const cartsCollection: Collection = getCollection("core", "carts");
+const cartsCollection: Collection = getCollection("app", "carts");
 
-export async function POST({ request, locals }: RequestEvent) {
+export async function POST({ request, locals }) {
     const cart: cart = await request.json();
 
     if (!isValidRestaurant(cart.restaurant)) {

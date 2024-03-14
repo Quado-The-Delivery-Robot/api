@@ -1,4 +1,4 @@
-import { json, type RequestEvent } from "@sveltejs/kit";
+import { json } from "@sveltejs/kit";
 import { getRobotByApi } from "$lib/controllers/robot";
 import type { Robot } from "$lib/classes/robot";
 
@@ -6,7 +6,7 @@ type registerEvent = {
     api: string;
 };
 
-export async function POST({ request }: RequestEvent) {
+export async function POST({ request }) {
     const data: registerEvent = await request.json();
     const robot: Robot | null = getRobotByApi(data.api);
 

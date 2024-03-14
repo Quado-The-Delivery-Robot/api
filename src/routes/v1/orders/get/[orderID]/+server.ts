@@ -10,7 +10,7 @@ export async function GET({ locals, params, fetch }) {
         id: locals.session.user?.email,
     });
     const items: order[] = result?.items || [];
-    const order: order = items.filter((order: order) => order.id === params.orderID)[0];
+    const order: order | undefined = items.filter((order: order) => order.id === params.orderID)[0];
 
     if (order) {
         order.code = null as unknown as any;
